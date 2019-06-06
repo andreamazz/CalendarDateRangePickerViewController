@@ -10,7 +10,7 @@ import UIKit
 
 class CalendarDateRangePickerHeaderView: UICollectionReusableView {
   
-  var label: UILabel!
+  var label = UILabel(frame: .zero)
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -18,15 +18,15 @@ class CalendarDateRangePickerHeaderView: UICollectionReusableView {
   }
   
   required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)!
+    super.init(coder: aDecoder)
     initLabel()
   }
   
   func initLabel() {
-    label = UILabel(frame: frame)
+    label.frame = frame
     label.center = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
     label.font = UIFont(name: "HelveticaNeue-Light", size: 17.0)
-    label.textColor = UIColor.darkGray
+    label.textColor = UIColor.lightGray
     label.textAlignment = NSTextAlignment.center
     self.addSubview(label)
   }

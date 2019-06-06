@@ -21,7 +21,7 @@ class CalendarDateRangePickerCell: UICollectionViewCell {
   var halfBackgroundView: UIView?
   var roundHighlightView: UIView?
   
-  var label: UILabel!
+  var label = UILabel()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -29,12 +29,12 @@ class CalendarDateRangePickerCell: UICollectionViewCell {
   }
   
   required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)!
+    super.init(coder: aDecoder)
     initLabel()
   }
   
   func initLabel() {
-    label = UILabel(frame: frame)
+    label.frame = frame
     label.center = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
     label.font = UIFont(name: "HelveticaNeue", size: 15.0)
     label.textColor = UIColor.darkGray

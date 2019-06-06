@@ -33,6 +33,9 @@ public class CalendarDateRangePickerViewController: UICollectionViewController {
   public var selectedColor = UIColor(red: 66/255.0, green: 150/255.0, blue: 240/255.0, alpha: 1.0)
   public var titleText = "Select Dates"
   
+  public var weekDayLabelTintColor = UIColor.red
+  public var dayLabelTintColor = UIColor.darkGray
+  
   override public func viewDidLoad() {
     super.viewDidLoad()
     
@@ -56,6 +59,11 @@ public class CalendarDateRangePickerViewController: UICollectionViewController {
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(CalendarDateRangePickerViewController.didTapCancel))
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(CalendarDateRangePickerViewController.didTapDone))
     self.navigationItem.rightBarButtonItem?.isEnabled = selectedStartDate != nil && selectedEndDate != nil
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      self.collectionView.scrollRectToVisible(CGRect(x: 0, y: self.collectionView.contentSize.height - 1, width: 10, height: 10), animated: false)
+    }
+    
   }
   
   @objc func didTapCancel() {
@@ -92,6 +100,7 @@ extension CalendarDateRangePickerViewController {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellReuseIdentifier, for: indexPath) as! CalendarDateRangePickerCell
     cell.selectedColor = self.selectedColor
     cell.reset()
+    cell.label.textColor = weekDayLabelTintColor
     let blankItems = getWeekday(date: getFirstDateForSection(section: indexPath.section)) - 1
     if indexPath.item < 7 {
       cell.label.text = getWeekdayLabel(weekday: indexPath.item + 1)
@@ -101,6 +110,7 @@ extension CalendarDateRangePickerViewController {
       let dayOfMonth = indexPath.item - (7 + blankItems) + 1
       let date = getDate(dayOfMonth: dayOfMonth, section: indexPath.section)
       cell.date = date
+      cell.label.textColor = dayLabelTintColor
       cell.label.text = "\(dayOfMonth)"
       
       if date.isBefore(date: minimumDate) {
@@ -119,7 +129,7 @@ extension CalendarDateRangePickerViewController {
       } else if selectedStartDate != nil && areSameDay(dateA: date, dateB: selectedStartDate!) {
         // Cell is selected start date
         cell.select()
-        if selectedEndDate != nil {
+        if selectedEndDate != nil && !areSameDay(dateA: selectedStartDate!, dateB: selectedEndDate!) {
           cell.highlightRight()
         }
       } else if selectedEndDate != nil && areSameDay(dateA: date, dateB: selectedEndDate!) {

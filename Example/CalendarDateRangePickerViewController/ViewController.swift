@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     @IBAction func didTapButton(_ sender: Any) {
         let dateRangePickerViewController = CalendarDateRangePickerViewController(collectionViewLayout: UICollectionViewFlowLayout())
         dateRangePickerViewController.delegate = self
-        dateRangePickerViewController.minimumDate = Date()
+        dateRangePickerViewController.minimumDate = Calendar.current.date(byAdding: .year, value: -22, to: Date())
         dateRangePickerViewController.maximumDate = Calendar.current.date(byAdding: .year, value: 2, to: Date())
         dateRangePickerViewController.selectedStartDate = Date()
         dateRangePickerViewController.selectedEndDate = Calendar.current.date(byAdding: .day, value: 10, to: Date())
